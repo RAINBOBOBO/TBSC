@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfmtyj8wud1eu"]
+
+[ext_resource type="PackedScene" uid="uid://bmotan5357ha1" path="res://characters/first_guy/first_guy.tscn" id="1_dfaxq"]
+
+[node name="TestDummy" type="Node2D"]
+
+[node name="FirstGuy" parent="." instance=ExtResource("1_dfaxq")]
+position = Vector2(495, 300)
