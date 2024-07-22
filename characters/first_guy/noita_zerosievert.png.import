@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bronwh3wkvgpt"
-path="res://.godot/imported/first_guy.png-2d09b24d6546356efa804903c8b09257.ctex"
+uid="uid://bo7jnw5e66q5g"
+path="res://.godot/imported/noita_zerosievert.png-17faacbae49e2cd335d1394c29a8c54f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://characters/first_guy/first_guy.png"
-dest_files=["res://.godot/imported/first_guy.png-2d09b24d6546356efa804903c8b09257.ctex"]
+source_file="res://characters/first_guy/noita_zerosievert.png"
+dest_files=["res://.godot/imported/noita_zerosievert.png-17faacbae49e2cd335d1394c29a8c54f.ctex"]
 
 [params]
 
