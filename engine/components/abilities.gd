@@ -1,0 +1,1 @@
+class_name Abilities extends Component
