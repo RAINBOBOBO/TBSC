@@ -18,4 +18,6 @@ var mood: Mood
 
 
 func setup_components() -> void:
+	print(get_property_list())
+	print(get_components())
 	return
