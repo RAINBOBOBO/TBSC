@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://levels/test_environments/test_character/test_character.gd" id="1_a6oxa"]
 
-[node name="TestCharacter" type="Node2D"]
+[node name="TestCharacter" type="Node"]
 script = ExtResource("1_a6oxa")

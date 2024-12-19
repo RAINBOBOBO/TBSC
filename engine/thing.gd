@@ -1,15 +1,20 @@
-class_name Thing extends RefCounted
+class_name Thing extends Node
 
-var name: String
+var composition:= Composition.new()
 
-func get_components() -> Array[Component]:
-	var components: Array[Component] = []
 
-	for property in get_property_list():
-		if property.usage and property.usage == PROPERTY_USAGE_SCRIPT_VARIABLE:
-			var new_component: Component = Component.create_component(
-				property.get("class_name")
-			)
-			components.append(new_component)
+func _init() -> void:
+	_setup_composition()
+	composition.print_composition()
 
-	return components
+
+func add_component(new_component: Component) -> void:
+	composition.add_component(new_component)
+
+
+func component(search: Component) -> void:
+	pass
+
+
+func _setup_composition() -> void:
+	push_warning("Just tried to setup a generic Thing class. Something has gone wrong.")

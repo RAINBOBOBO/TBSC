@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxfuk4pywihlg"]
+
+[ext_resource type="Script" path="res://engine/thing.gd" id="1_k4yac"]
+
+[node name="Thing" type="Node"]
+script = ExtResource("1_k4yac")

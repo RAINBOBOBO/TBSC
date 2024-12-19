@@ -1,13 +1,8 @@
-class_name Component extends RefCounted
+class_name Component extends Node
 
-var component_name: String
-
-static func create_component(component_class_name: String) -> Component:
-	print(ClassDB.get_class_list())
-	var new_component: Component = ClassDB.instantiate(component_class_name)
-	new_component.component_name = component_class_name
-	return new_component
+var class_as_string: String = "Component"
+var stackable: bool = false
 
 
 func _to_string() -> String:
-	return component_name
+	return class_as_string
