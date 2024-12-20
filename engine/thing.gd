@@ -1,6 +1,6 @@
 class_name Thing extends Node
 
-var composition:= Composition.new()
+@onready var composition: Composition = $Composition
 
 
 func _init() -> void:

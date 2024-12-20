@@ -1,24 +1,22 @@
-class_name Composition extends RefCounted
+class_name Composition extends Node
 
-var components: Dictionary = {}
+var components: Array[Component]
+
+
+func _ready() -> void:
+	_get_components()
 
 
 func add_component(new_component: Component) -> void:
-	if not components.has(new_component.class_as_string):
-		components[new_component.class_as_string] = [new_component]
-		return
-
-	if not new_component.stackable:
-		return
-
-	components[new_component.class_as_string].append(new_component)
+	add_child(new_component)
 
 
 func get_component(search: String) -> Component:
-	if not components.has(search):
-		return NullComponent.new()
+	for component in components:
+		if component.class_as_string == search:
+			return component
 
-	return components[search][-1]
+	return NullComponent.new()
 
 
 func has(search: Component) -> bool:
@@ -26,5 +24,9 @@ func has(search: Component) -> bool:
 
 
 func print_composition() -> void:
-	for component_array in components.values():
-		print(component_array[-1])
+	pass
+
+
+func _get_components() -> void:
+	var children: Array[Node] = get_children()
+
