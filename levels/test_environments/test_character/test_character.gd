@@ -2,5 +2,5 @@ extends Node
 
 
 func _ready() -> void:
-	var new_character:= Character.new()
+	pass
 	#new_character.component(Relationships)
