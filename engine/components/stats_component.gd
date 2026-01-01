@@ -18,6 +18,8 @@ static func create_random() -> StatsComponent:
 
 	stats.max_health = 100
 	stats.health = stats.max_health
+	stats.max_condition = 100
+	stats.condition = stats.max_condition
 
 	stats.strength = randi_range(1, 20)
 	stats.dexterity = randi_range(1, 20)

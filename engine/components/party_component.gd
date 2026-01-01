@@ -1,0 +1,1 @@
+class_name PartyComponent extends Resource
