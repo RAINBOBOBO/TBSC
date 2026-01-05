@@ -23,25 +23,41 @@ func generate_quest(difficulty: int = -1) -> JobComponent:
 	return quest
 
 
-func assign_party_to_quest(pary: PartyComponent, quest: JobComponent) -> bool:
+func assign_party_to_quest(party: PartyComponent, quest: JobComponent) -> bool:
 	if quest.state != JobComponent.JobState.AVAILABLE:
 		return false
 
 	quest.state = JobComponent.JobState.ACTIVE
+	quest.assigned_party_ids = party.member_ids.duplicate()
+	party.current_quest_id = quest_counter
 	return true
 
 # helpers
+func _calculate_performance_score(
+		party_stats: Dictionary,
+		weights: Dictionary,
+	) -> int:
+	var total_score: int = 0
+
+	for stat_name in party_stats:
+		var stat_value: int = party_stats[stat_name]
+		var weight: int = weights.get(stat_name, 1)
+		total_score += stat_value * weight
+
+	return total_score
+
+
 func generate_random_weights() -> Dictionary:
 	var stats: Array[String] = ["strength", "dexterity", "intelligence", "magic"]
 	var weights: Dictionary = {}
 
 	for stat_name in stats:
 		var roll: int = randi_range(1, 20)
-		if roll > 10 and roll <= 15:
-			weights[stat_name] = JobComponent.Relevance.IMPORTANT
-		elif roll > 15:
+		if roll > 17:
 			weights[stat_name] = JobComponent.Relevance.CRITICAL
-		else:
+		elif roll < 11:
 			weights[stat_name] = JobComponent.Relevance.NORMAL
+		else:
+			weights[stat_name] = JobComponent.Relevance.IMPORTANT
 
 	return weights
