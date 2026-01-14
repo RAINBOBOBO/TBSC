@@ -27,5 +27,4 @@ enum JobState {
 }
 @export var state: JobState = JobState.AVAILABLE
 @export var assigned_party_id: int = -1
-@export var party_performance_score: int = 0
 @export var completion_time: int = 0

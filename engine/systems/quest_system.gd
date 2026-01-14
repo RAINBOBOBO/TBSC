@@ -1,38 +1,164 @@
 class_name QuestSystem extends Node
 
-var available_quests: Array[JobComponent] = []
-var active_quests: Array[JobComponent] = []
-var resolved_quests: Array[JobComponent] = []
-var quest_counter: int = 0
+var entity_manager: EntityManager
+
+func _init(em: EntityManager) -> void:
+	entity_manager = em
 
 
-func generate_quest(difficulty: int = -1) -> JobComponent:
+func generate_quest(difficulty: int = -1) -> EntityData:
+	var quest_entity: EntityData = entity_manager.create_entity()
 	var quest = JobComponent.new()
-	quest_counter += 1
+
 	quest.title = "raid goblin village"
 	quest.description = "kill all the goblins mercilessly"
-	quest.difficulty = difficulty if difficulty != -1 else randi_range(1, 10)
+	quest.difficulty = randi_range(1, 10)
 	quest.min_performance_score = 40 + (quest.difficulty * 10)
 	quest.reward_gold = (quest.difficulty * 100) + randi_range(0, 100)
 	quest.reward_xp = (quest.difficulty * 10) + randi_range(0, 20)
+	quest.attribute_weights = _generate_random_weights()
+	quest.state = JobComponent.JobState.AVAILABLE
 
-	quest.attribute_to_relevance = generate_random_weights()
+	quest_entity.add_component("JobComponent", quest)
 
-	available_quests.append(quest)
-
-	return quest
+	return quest_entity
 
 
-func assign_party_to_quest(party: PartyComponent, quest: JobComponent) -> bool:
+func assign_party_to_quest(party_entity_id: int, quest_entity_id: int) -> bool:
+	var party_entity: EntityData = entity_manager.get_entity(party_entity_id)
+	var quest_entity: EntityData = entity_manager.get_entity(quest_entity_id)
+
+	if not party_entity or not quest_entity:
+		push_error("Invalid entity IDs")
+		return false
+
+	var party = party_entity.get_component("PartyComponent") as PartyComponent
+	var quest = quest_entity.get_component("JobComponent") as JobComponent
+
+	if not party or not quest:
+		push_error("Missing required components")
+		return false
+
 	if quest.state != JobComponent.JobState.AVAILABLE:
 		return false
 
 	quest.state = JobComponent.JobState.ACTIVE
-	quest.assigned_party_ids = party.member_ids.duplicate()
-	party.current_quest_id = quest_counter
+	quest.assigned_party_id = party_entity_id
+	party.current_quest_id = quest_entity_id
+
 	return true
 
+
+func resolve_quest(quest_entity_id: int) -> Dictionary:
+	var quest_entity: EntityData = entity_manager.get_entity(quest_entity_id)
+	if not quest_entity:
+		return {}
+
+	var quest: JobComponent = quest_entity.get_component("JobComponent")
+	if not quest or quest.state != JobComponent.JobState.ACTIVE:
+		return {}
+
+	var party_entity = entity_manager.get_entity(quest.assigned_party_id)
+	if not party_entity:
+		return {}
+
+	var party = party_entity.get_component("PartyComponent") as PartyComponent
+
+	var party_stats = _calculate_party_stats(party.member_ids)
+
+	var performance_score = _calculate_performance_score(party_stats, quest.attribute_weights)
+
+	var luck_bonus = randi_range(1, 20)
+	var final_score = performance_score + luck_bonus
+
+	var score_diff = final_score - quest.min_performance_score
+	var outcome: Dictionary
+
+	if score_diff > 5:
+		# Perfect completion - no damage
+		outcome = {
+			"result": "perfect",
+			"damage_per_member": 0,
+			"xp_per_member": quest.reward_xp,
+			"gold_reward": quest.reward_gold,
+			"score": final_score,
+			"required": quest.min_performance_score,
+		}
+		quest.state = JobComponent.JobState.COMPLETED
+	elif score_diff >= -5:
+		# Decent completion - some damage
+		outcome = {
+			"result": "success",
+			"damage_per_member": 15 + randi_range(0, 10),
+			"xp_per_member": quest.reward_xp,
+			"gold_reward": quest.reward_gold,
+			"score": final_score,
+			"required": quest.min_performance_score,
+		}
+		quest.state = JobComponent.JobState.COMPLETED
+	else:
+		# Failed - heavy damage
+		outcome = {
+			"result": "failure",
+			"damage_per_member": 30 + randi_range(0, 20),
+			"xp_per_member": quest.reward_xp / 2,
+			"gold_reward": 0,
+			"score": final_score,
+			"required": quest.min_performance_score,
+		}
+		quest.state = JobComponent.JobState.FAILED
+
+	_apply_quest_outcome(party.member_ids, outcome)
+
+	party.current_quest_id = -1
+
+	return outcome
+
+
 # helpers
+func _apply_quest_outcome(member_ids: Array[int], outcome: Dictionary) -> void:
+	for member_id in member_ids:
+		var member_entity = entity_manager.get_entity(member_id)
+		if not member_entity:
+			continue
+
+		var stats = member_entity.get_component("StatsComponent") as StatsComponent
+		if not stats:
+			continue
+
+		stats.health = max(0, stats.health - outcome["damage_per_member"])
+
+		# TODO: Apply XP through an XP system
+		# For now, you could add an XPComponent or handle it here
+		# This is where you'd call something like:
+		# xp_system.add_xp(member_id, outcome["xp_per_member"])
+
+
+func _calculate_party_stats(member_ids: Array[int]) -> Dictionary:
+	var total_stats = {
+		"strength": 0,
+		"dexterity": 0,
+		"intelligence": 0,
+		"magic": 0,
+	}
+
+	for member_id in member_ids:
+		var member_entity = entity_manager.get_entity(member_id)
+		if not member_entity:
+			continue
+
+		var stats = member_entity.get_component("StatsComponent") as StatsComponent
+		if not stats:
+			continue
+
+		total_stats["strength"] += stats.strength
+		total_stats["dexterity"] += stats.dexterity
+		total_stats["intelligence"] += stats.intelligence
+		total_stats["magic"] += stats.magic
+
+	return total_stats
+
+
 func _calculate_performance_score(
 		party_stats: Dictionary,
 		weights: Dictionary,
@@ -47,7 +173,7 @@ func _calculate_performance_score(
 	return total_score
 
 
-func generate_random_weights() -> Dictionary:
+func _generate_random_weights() -> Dictionary:
 	var stats: Array[String] = ["strength", "dexterity", "intelligence", "magic"]
 	var weights: Dictionary = {}
 
