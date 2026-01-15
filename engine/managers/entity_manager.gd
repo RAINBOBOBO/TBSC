@@ -25,10 +25,6 @@ func delete_entity(entity_id: int) -> bool:
 	return false
 
 
-func get_entity(entity_id: int) -> EntityData:
-	return entities.get(entity_id)
-
-
 func get_entities_with(component_type: String) -> Array[EntityData]:
 	var result: Array[EntityData]
 	for entity in entities.values():
@@ -36,6 +32,17 @@ func get_entities_with(component_type: String) -> Array[EntityData]:
 			result.append(entity)
 
 	return result
+
+
+func get_entity(entity_id: int) -> EntityData:
+	return entities.get(entity_id)
+
+
+func get_entity_component(entity_id: int, component_type: String) -> Resource:
+	var entity = get_entity(entity_id)
+	if not entity:
+		return null
+	return entity.get_component(component_type)
 
 
 func has_entity(entity_id: int) -> bool:

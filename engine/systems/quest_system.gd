@@ -25,15 +25,14 @@ func generate_quest(difficulty: int = -1) -> EntityData:
 
 
 func assign_party_to_quest(party_entity_id: int, quest_entity_id: int) -> bool:
-	var party_entity: EntityData = entity_manager.get_entity(party_entity_id)
-	var quest_entity: EntityData = entity_manager.get_entity(quest_entity_id)
-
-	if not party_entity or not quest_entity:
-		push_error("Invalid entity IDs")
-		return false
-
-	var party = party_entity.get_component("PartyComponent") as PartyComponent
-	var quest = quest_entity.get_component("JobComponent") as JobComponent
+	var party: PartyComponent = entity_manager.get_entity_component(
+		party_entity_id,
+		"PartyComponent",
+	)
+	var quest: JobComponent = entity_manager.get_entity_component(
+		quest_entity_id,
+		"JobComponent",
+	)
 
 	if not party or not quest:
 		push_error("Missing required components")
@@ -50,23 +49,24 @@ func assign_party_to_quest(party_entity_id: int, quest_entity_id: int) -> bool:
 
 
 func resolve_quest(quest_entity_id: int) -> Dictionary:
-	var quest_entity: EntityData = entity_manager.get_entity(quest_entity_id)
-	if not quest_entity:
-		return {}
-
-	var quest: JobComponent = quest_entity.get_component("JobComponent")
+	var quest: JobComponent = entity_manager.get_entity_component(
+		quest_entity_id,
+		"JobComponent",
+	)
 	if not quest or quest.state != JobComponent.JobState.ACTIVE:
 		return {}
 
-	var party_entity = entity_manager.get_entity(quest.assigned_party_id)
-	if not party_entity:
-		return {}
-
-	var party = party_entity.get_component("PartyComponent") as PartyComponent
+	var party: PartyComponent = entity_manager.get_entity_component(
+		quest.assigned_party_id,
+		"PartyComponent",
+	)
 
 	var party_stats = _calculate_party_stats(party.member_ids)
 
-	var performance_score = _calculate_performance_score(party_stats, quest.attribute_weights)
+	var performance_score = _calculate_performance_score(
+		party_stats,
+		quest.attribute_weights,
+	)
 
 	var luck_bonus = randi_range(1, 20)
 	var final_score = performance_score + luck_bonus
@@ -118,11 +118,10 @@ func resolve_quest(quest_entity_id: int) -> Dictionary:
 # helpers
 func _apply_quest_outcome(member_ids: Array[int], outcome: Dictionary) -> void:
 	for member_id in member_ids:
-		var member_entity = entity_manager.get_entity(member_id)
-		if not member_entity:
-			continue
-
-		var stats = member_entity.get_component("StatsComponent") as StatsComponent
+		var stats: StatsComponent = entity_manager.get_entity_component(
+			member_id,
+			"StatsComponent",
+		)
 		if not stats:
 			continue
 
@@ -143,11 +142,10 @@ func _calculate_party_stats(member_ids: Array[int]) -> Dictionary:
 	}
 
 	for member_id in member_ids:
-		var member_entity = entity_manager.get_entity(member_id)
-		if not member_entity:
-			continue
-
-		var stats = member_entity.get_component("StatsComponent") as StatsComponent
+		var stats: StatsComponent = entity_manager.get_entity_component(
+			member_id,
+			"StatsComponent",
+		)
 		if not stats:
 			continue
 
