@@ -1,6 +1,6 @@
 class_name QuestSystem extends Node
 
-var entity_manager: EntityManager
+@export var entity_manager: EntityManager
 
 func _init(em: EntityManager) -> void:
 	entity_manager = em
