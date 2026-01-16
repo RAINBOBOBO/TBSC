@@ -26,5 +26,6 @@ enum JobState {
 	FAILED
 }
 @export var state: JobState = JobState.AVAILABLE
-@export var assigned_party_id: int = -1
+@export var assigned_staff_ids: Array[int] = []
+@export var assigned_company_id: int = -1
 @export var completion_time: int = 0

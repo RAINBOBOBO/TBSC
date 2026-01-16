@@ -1,6 +1,32 @@
-class_name StaffManagementSystem extends Node
+class_name CompanySystem extends Node
 
 @export var entity_manager: EntityManager
+
+
+func complete_job(
+		company_id: int,
+		quest_id: int,
+		party_ids: Array[int],
+		success: bool,
+		reward: int,
+	) -> void:
+	var company: CompanyComponent = entity_manager.get_entity_component(
+		company_id,
+		"CompanyComponent",
+	)
+	if not company:
+		return
+
+	company.active_jobs.erase(quest_id)
+
+	if success:
+		company.completed_jobs.append(quest_id)
+		company.money += reward
+	else:
+		company.failed_jobs.append(quest_id)
+
+	for staff_id in party_ids:
+		company.out_on_job.erase(staff_id)
 
 
 func get_available_for_job(company_entity_id: int) -> Array[int]:

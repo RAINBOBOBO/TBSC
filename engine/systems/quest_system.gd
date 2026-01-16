@@ -2,17 +2,22 @@ class_name QuestSystem extends Node
 
 @export var entity_manager: EntityManager
 
-func _init(em: EntityManager) -> void:
-	entity_manager = em
+signal quest_assigned(quest_id: int, company_id: int, staff_ids: Array[int])
+signal quest_resolved(
+	quest_id: int,
+	company_id: int,
+	staff_ids: Array[int],
+	outcome: Dictionary,
+)
 
 
 func generate_quest(difficulty: int = -1) -> EntityData:
 	var quest_entity: EntityData = entity_manager.create_entity()
 	var quest = JobComponent.new()
 
-	quest.title = "raid goblin village"
-	quest.description = "kill all the goblins mercilessly"
-	quest.difficulty = randi_range(1, 10)
+	quest.title = _generate_quest_title()
+	quest.description = "This quest may not be as placeholder as it seems..."
+	quest.difficulty = difficulty if difficulty != -1 else randi_range(1, 10)
 	quest.min_performance_score = 40 + (quest.difficulty * 10)
 	quest.reward_gold = (quest.difficulty * 100) + randi_range(0, 100)
 	quest.reward_xp = (quest.difficulty * 10) + randi_range(0, 20)
@@ -24,18 +29,18 @@ func generate_quest(difficulty: int = -1) -> EntityData:
 	return quest_entity
 
 
-func assign_party_to_quest(party_entity_id: int, quest_entity_id: int) -> bool:
-	var party: PartyComponent = entity_manager.get_entity_component(
-		party_entity_id,
-		"PartyComponent",
-	)
+func assign_staff_to_quest(
+	company_id: int,
+	quest_entity_id: int,
+	staff_ids: Array[int],
+) -> bool:
 	var quest: JobComponent = entity_manager.get_entity_component(
 		quest_entity_id,
 		"JobComponent",
 	)
 
-	if not party or not quest:
-		push_error("Missing required components")
+	if not quest:
+		push_error("Quest entity not found or missing JobComponent")
 		return false
 
 	if quest.state != JobComponent.JobState.AVAILABLE:
@@ -101,7 +106,7 @@ func resolve_quest(quest_entity_id: int) -> Dictionary:
 		outcome = {
 			"result": "failure",
 			"damage_per_member": 30 + randi_range(0, 20),
-			"xp_per_member": quest.reward_xp / 2,
+			"xp_per_member": int(quest.reward_xp / 2.0),
 			"gold_reward": 0,
 			"score": final_score,
 			"required": quest.min_performance_score,
@@ -172,7 +177,12 @@ func _calculate_performance_score(
 
 
 func _generate_random_weights() -> Dictionary:
-	var stats: Array[String] = ["strength", "dexterity", "intelligence", "magic"]
+	var stats: Array[String] = [
+		"strength",
+		"dexterity",
+		"intelligence",
+		"magic",
+	]
 	var weights: Dictionary = {}
 
 	for stat_name in stats:
@@ -185,3 +195,24 @@ func _generate_random_weights() -> Dictionary:
 			weights[stat_name] = JobComponent.Relevance.IMPORTANT
 
 	return weights
+
+
+func _generate_quest_title() -> String:
+	var actions: Array[String] = [
+		"Raid",
+		"Defend",
+		"Investigate",
+		"Escort",
+		"Hunt",
+	]
+	var targets: Array[String] = [
+		"Goblin Village",
+		"Ancient Ruins",
+		"Merchant Caravan",
+		"Dragon Lair",
+		"Bandit Camp",
+	]
+	return "%s %s" % [
+		actions[randi_range(0, actions.size() - 1)],
+		targets[randi_range(0, targets.size() - 1)],
+	]
