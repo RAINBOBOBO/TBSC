@@ -44,11 +44,14 @@ func assign_staff_to_quest(
 		return false
 
 	if quest.state != JobComponent.JobState.AVAILABLE:
+		push_error("Quest is not available")
 		return false
 
 	quest.state = JobComponent.JobState.ACTIVE
-	quest.assigned_party_id = party_entity_id
-	party.current_quest_id = quest_entity_id
+	quest.assigned_party_id = staff_ids.duplicate()
+	quest.assigned_company_id = company_id
+
+	quest_assigned.emit(quest_entity_id, company_id, staff_ids)
 
 	return true
 
@@ -61,12 +64,9 @@ func resolve_quest(quest_entity_id: int) -> Dictionary:
 	if not quest or quest.state != JobComponent.JobState.ACTIVE:
 		return {}
 
-	var party: PartyComponent = entity_manager.get_entity_component(
-		quest.assigned_party_id,
-		"PartyComponent",
+	var party_stats: Dictionary = _calculate_party_stats(
+		quest.assigned_staff_ids
 	)
-
-	var party_stats = _calculate_party_stats(party.member_ids)
 
 	var performance_score = _calculate_performance_score(
 		party_stats,
@@ -113,11 +113,57 @@ func resolve_quest(quest_entity_id: int) -> Dictionary:
 		}
 		quest.state = JobComponent.JobState.FAILED
 
-	_apply_quest_outcome(party.member_ids, outcome)
+	_apply_quest_outcome(quest.assigned_staff_ids, outcome)
 
-	party.current_quest_id = -1
+	quest_resolved.emit(
+		quest_entity_id,
+		quest.assigned_company_id,
+		quest.assigned_staff_ids,
+		outcome,
+	)
 
 	return outcome
+
+
+# query functions
+func get_active_quests() -> Array[EntityData]:
+	var all_quests: Array[EntityData] = entity_manager.get_entities_with(
+		"JobComponent"
+	)
+	var active_quests: Array[EntityData] = []
+
+	for quest_entity in all_quests:
+		var job: JobComponent = quest_entity.get_component("JobComponent")
+		if job and job.state == JobComponent.JobState.ACTIVE:
+			active_quests.append(quest_entity)
+
+	return active_quests
+
+
+func get_available_quests() -> Array[EntityData]:
+	var all_quests: Array[EntityData] = entity_manager.get_entities_with(
+		"JobComponent"
+	)
+	var available_quests: Array[EntityData] = []
+
+	for quest_entity in all_quests:
+		var job: JobComponent = quest_entity.get_component("JobComponent")
+		if job and job.state == JobComponent.JobState.AVAILABLE:
+			available_quests.append(quest_entity)
+
+	return available_quests
+
+
+func get_company_active_quests(company_id: int) -> Array[EntityData]:
+	var active_quests: Array[EntityData] = get_active_quests()
+	var company_quests: Array[EntityData] = []
+
+	for quest_entity in active_quests:
+		var job: JobComponent = quest_entity.get_component("JobComponent")
+		if job and job.assigned_company_id == company_id:
+			company_quests.append(quest_entity)
+
+	return company_quests
 
 
 # helpers

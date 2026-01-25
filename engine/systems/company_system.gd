@@ -3,12 +3,30 @@ class_name CompanySystem extends Node
 @export var entity_manager: EntityManager
 
 
-func complete_job(
-		company_id: int,
+func on_quest_assigned(
+	quest_id: int,
+	company_id: int,
+	staff_ids: Array[int],
+) -> void:
+	var company: CompanyComponent = entity_manager.get_entity_component(
+		company_id,
+		"CompanyComponent",
+	)
+	if not company:
+		return
+
+	company.active_jobs.append(quest_id)
+
+	for staff_id in staff_ids:
+		if staff_id not in company.out_on_job:
+			company.out_on_job.append(staff_id)
+
+
+func on_quest_resolved(
 		quest_id: int,
-		party_ids: Array[int],
-		success: bool,
-		reward: int,
+		company_id: int,
+		staff_ids: Array[int],
+		outcome: Dictionary,
 	) -> void:
 	var company: CompanyComponent = entity_manager.get_entity_component(
 		company_id,
@@ -19,13 +37,14 @@ func complete_job(
 
 	company.active_jobs.erase(quest_id)
 
+	var success: bool = outcome["result"] != "failure"
 	if success:
 		company.completed_jobs.append(quest_id)
-		company.money += reward
+		company.money += outcome["gold_reward"]
 	else:
 		company.failed_jobs.append(quest_id)
 
-	for staff_id in party_ids:
+	for staff_id in staff_ids:
 		company.out_on_job.erase(staff_id)
 
 
@@ -48,7 +67,7 @@ func get_available_for_job(company_entity_id: int) -> Array[int]:
 func hire_staff_member(company_entity_id: int, staff_member_id: int) -> bool:
 	var company: CompanyComponent = entity_manager.get_entity_component(
 		company_entity_id,
-		"CompanyComponent"
+		"CompanyComponent",
 	)
 	if not company:
 		return false
@@ -66,7 +85,7 @@ func hire_staff_member(company_entity_id: int, staff_member_id: int) -> bool:
 func fire_staff_member(company_entity_id: int, staff_member_id: int) -> bool:
 	var company: CompanyComponent = entity_manager.get_entity_component(
 		company_entity_id,
-		"CompanyComponent"
+		"CompanyComponent",
 	)
 	if not company:
 		return false
