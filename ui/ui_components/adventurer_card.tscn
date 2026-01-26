@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dxl0bau8tribr"]
 
-[ext_resource type="Script" uid="uid://d1oo8dcu47rka" path="res://ui/adventurer_card.gd" id="1_7qp1a"]
+[ext_resource type="Script" uid="uid://d1oo8dcu47rka" path="res://ui/ui_components/adventurer_card.gd" id="1_7qp1a"]
 
 [node name="AdventurerCard" type="PanelContainer"]
 script = ExtResource("1_7qp1a")
