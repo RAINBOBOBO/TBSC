@@ -48,7 +48,7 @@ func assign_staff_to_quest(
 		return false
 
 	quest.state = JobComponent.JobState.ACTIVE
-	quest.assigned_party_id = staff_ids.duplicate()
+	quest.assigned_staff_ids = staff_ids.duplicate()
 	quest.assigned_company_id = company_id
 
 	quest_assigned.emit(quest_entity_id, company_id, staff_ids)
