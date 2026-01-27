@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7a5cb6ii24i5"]
+
+[ext_resource type="Script" uid="uid://bjd8s8618hry1" path="res://ui/hiring_screen.gd" id="1_0anpj"]
+
+[node name="HiringScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0anpj")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HeaderContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderContainer"]
+layout_mode = 2
+text = "Hire Your Team"
+
+[node name="InstructionLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderContainer"]
+layout_mode = 2
+text = "Select 10 adventurers to form your company"
+
+[node name="SelectionLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AdventurerList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Confirm Selection"
