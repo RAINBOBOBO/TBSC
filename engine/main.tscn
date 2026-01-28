@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhhd7egq63fmq"]
+
+[ext_resource type="Script" uid="uid://25yoimpy3yp7" path="res://engine/managers/entity_manager.gd" id="1_yf4bv"]
+[ext_resource type="Script" uid="uid://c83j1y8v7vx0i" path="res://engine/systems/quest_system.gd" id="2_wadjj"]
+[ext_resource type="Script" uid="uid://v781dkmas0fh" path="res://engine/systems/company_system.gd" id="3_nowth"]
+[ext_resource type="Script" uid="uid://bjd8s8618hry1" path="res://ui/hiring_screen.gd" id="4_ugqds"]
+[ext_resource type="Script" uid="uid://ba3xiuno47siy" path="res://engine/managers/game_manager.gd" id="4_wadjj"]
+
+[node name="Main" type="Node"]
+
+[node name="EntityManager" type="Node" parent="."]
+script = ExtResource("1_yf4bv")
+metadata/_custom_type_script = "uid://25yoimpy3yp7"
+
+[node name="QuestSystem" type="Node" parent="." node_paths=PackedStringArray("entity_manager")]
+script = ExtResource("2_wadjj")
+entity_manager = NodePath("../EntityManager")
+metadata/_custom_type_script = "uid://c83j1y8v7vx0i"
+
+[node name="CompanySystem" type="Node" parent="." node_paths=PackedStringArray("entity_manager")]
+script = ExtResource("3_nowth")
+entity_manager = NodePath("../EntityManager")
+metadata/_custom_type_script = "uid://v781dkmas0fh"
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("entity_manager", "quest_system", "company_system", "hiring_screen")]
+script = ExtResource("4_wadjj")
+entity_manager = NodePath("../EntityManager")
+quest_system = NodePath("../QuestSystem")
+company_system = NodePath("../CompanySystem")
+hiring_screen = NodePath("../UI/HiringScreen")
+metadata/_custom_type_script = "uid://ba3xiuno47siy"
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HiringScreen" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_ugqds")
+metadata/_custom_type_script = "uid://bjd8s8618hry1"

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ct8p3hf8mtkog"]
+
+[ext_resource type="Script" uid="uid://cl2gpxvo03w7b" path="res://ui/management_hub.gd" id="1_3b66u"]
+
+[node name="ManagementHub" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_3b66u")
