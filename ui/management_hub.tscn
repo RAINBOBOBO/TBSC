@@ -6,3 +6,68 @@
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_3b66u")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="QuestBoardHeader" type="VBoxContainer" parent="MarginContainer/HBoxContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="QuestBoardTitle" type="Label" parent="MarginContainer/HBoxContainer/LeftPanel/QuestBoardHeader"]
+layout_mode = 2
+text = "Quest Board"
+
+[node name="GenerateQuestButton" type="Button" parent="MarginContainer/HBoxContainer/LeftPanel/QuestBoardHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QuestScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/LeftPanel"]
+layout_mode = 2
+
+[node name="QuestList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/LeftPanel/QuestScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CenterPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CompanyGoldLabel" type="Label" parent="MarginContainer/HBoxContainer/CenterPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ActiveQuestPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer/CenterPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ActiveQuestContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/CenterPanel/ActiveQuestPanel"]
+layout_mode = 2
+
+[node name="ActiveQuestLabel" type="Label" parent="MarginContainer/HBoxContainer/CenterPanel/ActiveQuestPanel/ActiveQuestContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResolveQuestButton" type="Button" parent="MarginContainer/HBoxContainer/CenterPanel/ActiveQuestPanel/ActiveQuestContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RightPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="RosterTitle" type="Label" parent="MarginContainer/HBoxContainer/RightPanel"]
+layout_mode = 2
+text = "Your Team"
+
+[node name="RosterScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/RightPanel"]
+layout_mode = 2
+
+[node name="RosterList" type="VBoxContainer" parent="MarginContainer/HBoxContainer/RightPanel/RosterScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
