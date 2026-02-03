@@ -28,8 +28,8 @@ func setup(
 	update_display()
 
 
-func set_selected(selected: bool) -> void:
-	is_selected = selected
+func set_selected(p_is_selected: bool) -> void:
+	is_selected = p_is_selected
 	update_display()
 
 	if is_selected:
