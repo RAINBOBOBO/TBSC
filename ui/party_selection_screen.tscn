@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://bru8hpuba026h"]
+
+[ext_resource type="Script" uid="uid://nvh1aecbd0c7" path="res://ui/party_selection_screen.gd" id="1_4t0ak"]
+
+[node name="PartySelectionScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4t0ak")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HeaderLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Party Members"
+
+[node name="QuestInfoPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QuestInfoMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/QuestInfoPanel"]
+layout_mode = 2
+
+[node name="QuestInfoVBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/QuestInfoPanel/QuestInfoMargin"]
+layout_mode = 2
+
+[node name="QuestTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/QuestInfoPanel/QuestInfoMargin/QuestInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QuestDifficultyLabel" type="Label" parent="MarginContainer/VBoxContainer/QuestInfoPanel/QuestInfoMargin/QuestInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="QuestRewardLabel" type="Label" parent="MarginContainer/VBoxContainer/QuestInfoPanel/QuestInfoMargin/QuestInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StatWeightsLabel" type="Label" parent="MarginContainer/VBoxContainer/QuestInfoPanel/QuestInfoMargin/QuestInfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SelectedCountLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StaffScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AvailableStaffList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/StaffScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Quest"

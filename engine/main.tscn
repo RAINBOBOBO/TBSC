@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhhd7egq63fmq"]
+[gd_scene load_steps=8 format=3 uid="uid://dhhd7egq63fmq"]
 
 [ext_resource type="Script" uid="uid://25yoimpy3yp7" path="res://engine/managers/entity_manager.gd" id="1_yf4bv"]
 [ext_resource type="Script" uid="uid://c83j1y8v7vx0i" path="res://engine/systems/quest_system.gd" id="2_wadjj"]
 [ext_resource type="Script" uid="uid://v781dkmas0fh" path="res://engine/systems/company_system.gd" id="3_nowth"]
 [ext_resource type="Script" uid="uid://bjd8s8618hry1" path="res://ui/hiring_screen.gd" id="4_ugqds"]
 [ext_resource type="Script" uid="uid://ba3xiuno47siy" path="res://engine/managers/game_manager.gd" id="4_wadjj"]
+[ext_resource type="Script" uid="uid://cl2gpxvo03w7b" path="res://ui/management_hub.gd" id="6_ugqds"]
+[ext_resource type="Script" uid="uid://nvh1aecbd0c7" path="res://ui/party_selection_screen.gd" id="7_fgcto"]
 
 [node name="Main" type="Node"]
 
@@ -22,12 +24,14 @@ script = ExtResource("3_nowth")
 entity_manager = NodePath("../EntityManager")
 metadata/_custom_type_script = "uid://v781dkmas0fh"
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("entity_manager", "quest_system", "company_system", "hiring_screen")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("entity_manager", "quest_system", "company_system", "hiring_screen", "management_hub", "party_selection")]
 script = ExtResource("4_wadjj")
 entity_manager = NodePath("../EntityManager")
 quest_system = NodePath("../QuestSystem")
 company_system = NodePath("../CompanySystem")
 hiring_screen = NodePath("../UI/HiringScreen")
+management_hub = NodePath("../UI/ManagementHub")
+party_selection = NodePath("../UI/PartySelectionScreen")
 metadata/_custom_type_script = "uid://ba3xiuno47siy"
 
 [node name="UI" type="Control" parent="."]
@@ -42,3 +46,17 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_ugqds")
 metadata/_custom_type_script = "uid://bjd8s8618hry1"
+
+[node name="ManagementHub" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_ugqds")
+metadata/_custom_type_script = "uid://cl2gpxvo03w7b"
+
+[node name="PartySelectionScreen" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_fgcto")
+metadata/_custom_type_script = "uid://nvh1aecbd0c7"
