@@ -33,6 +33,7 @@ func setup(
 	company_system = p_company_system
 	game_manager = p_game_manager
 	available_adventurer_ids = p_available_adventurer_ids
+	print(available_adventurer_ids)
 	_populate_adventurer_list()
 	_update_ui()
 

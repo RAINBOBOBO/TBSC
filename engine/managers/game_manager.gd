@@ -16,15 +16,7 @@ func _ready() -> void:
 	quest_system.quest_assigned.connect(company_system.on_quest_assigned)
 	quest_system.quest_resolved.connect(company_system.on_quest_resolved)
 
-	hiring_screen.setup(entity_manager, company_system, self, free_agent_pool)
-	hiring_screen.hiring_complete.connect(_on_hiring_complete)
-
-	management_hub.setup(entity_manager, quest_system, company_system, self)
-	management_hub.quest_selected_for_assignment.connect(_on_quest_selected)
-
-	party_selection.visible = false
-	party_selection.selection_confirmed.connect(_on_party_selection_confirmed)
-	party_selection.selection_cancelled.connect(_on_party_selection_cancelled)
+	call_deferred("_setup_ui")
 
 
 func initialize_game() -> void:
@@ -74,3 +66,14 @@ func _on_quest_selected(quest_id: int) -> void:
 		self,
 		quest_id,
 	)
+
+
+func _setup_ui() -> void:
+	hiring_screen.setup(entity_manager, company_system, self, free_agent_pool)
+	hiring_screen.hiring_complete.connect(_on_hiring_complete)
+
+	management_hub.setup(entity_manager, quest_system, company_system, self)
+	management_hub.quest_selected_for_assignment.connect(_on_quest_selected)
+
+	party_selection.selection_confirmed.connect(_on_party_selection_confirmed)
+	party_selection.selection_cancelled.connect(_on_party_selection_cancelled)

@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://25yoimpy3yp7" path="res://engine/managers/entity_manager.gd" id="1_yf4bv"]
 [ext_resource type="Script" uid="uid://c83j1y8v7vx0i" path="res://engine/systems/quest_system.gd" id="2_wadjj"]
 [ext_resource type="Script" uid="uid://v781dkmas0fh" path="res://engine/systems/company_system.gd" id="3_nowth"]
-[ext_resource type="Script" uid="uid://bjd8s8618hry1" path="res://ui/hiring_screen.gd" id="4_ugqds"]
 [ext_resource type="Script" uid="uid://ba3xiuno47siy" path="res://engine/managers/game_manager.gd" id="4_wadjj"]
-[ext_resource type="Script" uid="uid://cl2gpxvo03w7b" path="res://ui/management_hub.gd" id="6_ugqds"]
-[ext_resource type="Script" uid="uid://nvh1aecbd0c7" path="res://ui/party_selection_screen.gd" id="7_fgcto"]
+[ext_resource type="PackedScene" uid="uid://b7a5cb6ii24i5" path="res://ui/hiring_screen.tscn" id="5_ugqds"]
+[ext_resource type="PackedScene" uid="uid://ct8p3hf8mtkog" path="res://ui/management_hub.tscn" id="6_fgcto"]
+[ext_resource type="PackedScene" uid="uid://bru8hpuba026h" path="res://ui/party_selection_screen.tscn" id="7_7vh52"]
 
 [node name="Main" type="Node"]
 
@@ -40,23 +40,13 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="HiringScreen" type="Control" parent="UI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_ugqds")
-metadata/_custom_type_script = "uid://bjd8s8618hry1"
+[node name="HiringScreen" parent="UI" instance=ExtResource("5_ugqds")]
+layout_mode = 0
 
-[node name="ManagementHub" type="Control" parent="UI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("6_ugqds")
-metadata/_custom_type_script = "uid://cl2gpxvo03w7b"
+[node name="ManagementHub" parent="UI" instance=ExtResource("6_fgcto")]
+visible = false
+layout_mode = 0
 
-[node name="PartySelectionScreen" type="Control" parent="UI"]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("7_fgcto")
-metadata/_custom_type_script = "uid://nvh1aecbd0c7"
+[node name="PartySelectionScreen" parent="UI" instance=ExtResource("7_7vh52")]
+visible = false
+layout_mode = 0
