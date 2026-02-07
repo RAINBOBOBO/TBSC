@@ -28,7 +28,7 @@ func initialize_game() -> void:
 		)
 		adventurer.add_component(
 			"NameComponent",
-			NameComponent.new(),
+			NameComponent.new(("John Entity " + str(i))),
 		)
 		free_agent_pool.append(adventurer.id)
 
@@ -44,11 +44,13 @@ func _on_hiring_complete() -> void:
 	for i in range(3):
 		quest_system.generate_quest()
 
+	management_hub.update_display()
+
 
 func _on_party_selection_confirmed() -> void:
 	party_selection.visible = false
 	management_hub.visible = true
-	management_hub.refresh_display()
+	management_hub.update_display()
 
 
 func _on_party_selection_cancelled() -> void:

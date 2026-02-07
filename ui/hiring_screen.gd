@@ -42,6 +42,8 @@ func _populate_adventurer_list() -> void:
 	for child in adventurer_list.get_children():
 		child.queue_free()
 
+	print("Available adventurers: ", available_adventurer_ids.size())
+
 	for adventurer_id in available_adventurer_ids:
 		var adventurer_card: AdventurerCard = (
 			ADVENTURER_CARD_SCENE.instantiate()
@@ -51,6 +53,8 @@ func _populate_adventurer_list() -> void:
 
 		adventurer_card.selected.connect(_on_adventurer_selected)
 		adventurer_card.deselected.connect(_on_adventurer_deselected)
+
+	print("Total cards created: ", adventurer_list.get_child_count())
 
 
 func _on_adventurer_selected(adventurer_id: int) -> void:

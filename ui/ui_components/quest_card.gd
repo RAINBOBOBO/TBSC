@@ -13,6 +13,11 @@ var quest_id: int = -1
 signal accept_pressed(quest_id: int)
 
 
+func _ready() -> void:
+	if accept_button:
+		accept_button.pressed.connect(_on_accept_button_pressed)
+
+
 func setup(
 	p_entity_manager: EntityManager,
 	p_quest_id: int,

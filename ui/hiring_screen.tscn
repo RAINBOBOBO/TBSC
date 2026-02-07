@@ -8,6 +8,7 @@ anchors_preset = 0
 script = ExtResource("1_0anpj")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(500, 150)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -31,6 +32,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 150)
 layout_mode = 2
 
 [node name="AdventurerList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]

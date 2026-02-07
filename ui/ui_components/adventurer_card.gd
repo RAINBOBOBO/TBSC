@@ -17,6 +17,11 @@ signal selected(adventurer_id: int)
 signal deselected(adventurer_id: int)
 
 
+func _ready() -> void:
+	if select_button:
+		select_button.pressed.connect(_on_select_button_pressed)
+
+
 func setup(
 	p_entity_manager: EntityManager,
 	p_adventurer_id: int,
@@ -25,6 +30,7 @@ func setup(
 	entity_manager = p_entity_manager
 	adventurer_id = p_adventurer_id
 	select_button.visible = show_select_button
+
 	update_display()
 
 
@@ -61,6 +67,7 @@ func update_display() -> void:
 		adventurer_id,
 		"StatsComponent"
 	)
+	print(adventurer_id, name_component.display_name, stats.health)
 
 	if not name_component or not stats:
 		push_error("Adventurer missing required components")

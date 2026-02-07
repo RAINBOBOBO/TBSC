@@ -8,6 +8,7 @@ anchors_preset = 0
 script = ExtResource("1_4t0ak")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -50,6 +51,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="StaffScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 
 [node name="AvailableStaffList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/StaffScrollContainer"]
