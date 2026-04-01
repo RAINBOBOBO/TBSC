@@ -1,12 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dhhd7egq63fmq"]
+[gd_scene load_steps=5 format=3 uid="uid://dhhd7egq63fmq"]
 
 [ext_resource type="Script" uid="uid://25yoimpy3yp7" path="res://engine/managers/entity_manager.gd" id="1_yf4bv"]
 [ext_resource type="Script" uid="uid://c83j1y8v7vx0i" path="res://engine/systems/quest_system.gd" id="2_wadjj"]
 [ext_resource type="Script" uid="uid://v781dkmas0fh" path="res://engine/systems/company_system.gd" id="3_nowth"]
 [ext_resource type="Script" uid="uid://ba3xiuno47siy" path="res://engine/managers/game_manager.gd" id="4_wadjj"]
-[ext_resource type="PackedScene" uid="uid://b7a5cb6ii24i5" path="res://ui/hiring_screen.tscn" id="5_ugqds"]
-[ext_resource type="PackedScene" uid="uid://ct8p3hf8mtkog" path="res://ui/management_hub.tscn" id="6_fgcto"]
-[ext_resource type="PackedScene" uid="uid://bru8hpuba026h" path="res://ui/party_selection_screen.tscn" id="7_7vh52"]
 
 [node name="Main" type="Node"]
 
@@ -24,14 +21,11 @@ script = ExtResource("3_nowth")
 entity_manager = NodePath("../EntityManager")
 metadata/_custom_type_script = "uid://v781dkmas0fh"
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("entity_manager", "quest_system", "company_system", "hiring_screen", "management_hub", "party_selection")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("entity_manager", "quest_system", "company_system")]
 script = ExtResource("4_wadjj")
 entity_manager = NodePath("../EntityManager")
 quest_system = NodePath("../QuestSystem")
 company_system = NodePath("../CompanySystem")
-hiring_screen = NodePath("../UI/HiringScreen")
-management_hub = NodePath("../UI/ManagementHub")
-party_selection = NodePath("../UI/PartySelectionScreen")
 metadata/_custom_type_script = "uid://ba3xiuno47siy"
 
 [node name="UI" type="Control" parent="."]
@@ -39,14 +33,3 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="HiringScreen" parent="UI" instance=ExtResource("5_ugqds")]
-layout_mode = 0
-
-[node name="ManagementHub" parent="UI" instance=ExtResource("6_fgcto")]
-visible = false
-layout_mode = 0
-
-[node name="PartySelectionScreen" parent="UI" instance=ExtResource("7_7vh52")]
-visible = false
-layout_mode = 0
