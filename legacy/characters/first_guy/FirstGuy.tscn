@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://cp8aul4gxjh4a"]
 
 [ext_resource type="Script" path="res://characters/base/base_character.gd" id="1_subi1"]
-[ext_resource type="Texture2D" uid="uid://bo7jnw5e66q5g" path="res://characters/first_guy/noita_zerosievert.png" id="2_odl2s"]
-[ext_resource type="PackedScene" uid="uid://bntymyu6ssbm5" path="res://items/weapons/sword/Sword.tscn" id="3_vswbm"]
+[ext_resource type="Texture2D" uid="uid://bo7jnw5e66q5g" path="res://legacy/characters/first_guy/noita_zerosievert.png" id="2_odl2s"]
+[ext_resource type="PackedScene" uid="uid://bntymyu6ssbm5" path="res://legacy/items/weapons/sword/Sword.tscn" id="3_vswbm"]
 
 [sub_resource type="Animation" id="Animation_yecpl"]
 length = 0.001

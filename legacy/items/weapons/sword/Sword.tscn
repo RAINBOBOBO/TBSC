@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bntymyu6ssbm5"]
 
-[ext_resource type="Texture2D" uid="uid://ehcnsfvrfxvj" path="res://items/weapons/sword/sword_prototype.png" id="1_t614f"]
+[ext_resource type="Texture2D" uid="uid://ehcnsfvrfxvj" path="res://legacy/items/weapons/sword/sword_prototype.png" id="1_t614f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_63h8x"]
 radius = 3.0
