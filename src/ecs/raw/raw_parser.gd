@@ -5,7 +5,7 @@ class_name RawParser extends RefCounted
 # Output format per archetype:
 # {
 #   "id": "GOBLIN_WARRIOR",
-#   "name":  { "name": "Goblin Warrior", "title": "of the Dark Caves" },
+#   "name":  { "value": "Goblin Warrior", "secondary": "of the Dark Caves" },
 #   "stats": [ { "key": "strength", "value": 12 }, ... ],
 # }
 #
@@ -82,6 +82,7 @@ func parse_text(text: String, source_label: String = "<string>") -> Dictionary:
 		var schema := _registry.get_schema(tag)
 		var component_key: String = schema["component"]
 		var cardinality: String = schema["cardinality"]
+		var field: String = schema["field"]
 		var handler: Callable = schema["handler"]
 		var value = handler.call(args)
 
@@ -89,11 +90,7 @@ func parse_text(text: String, source_label: String = "<string>") -> Dictionary:
 			"one":
 				if not current_data.has(component_key):
 					current_data[component_key] = {}
-				current_data[component_key]["value"] = value
-			"one_secondary":
-				if not current_data.has(component_key):
-					current_data[component_key] = {}
-				current_data[component_key]["secondary"] = value
+				current_data[component_key][field] = value
 			"many":
 				if not current_data.has(component_key):
 					current_data[component_key] = []

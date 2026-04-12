@@ -28,7 +28,8 @@ func _init_raw_pipeline() -> void:
 		var parsed := parser.parse_file(path)
 		archetype_registry.load_archetypes(parsed)
 
-	entity_factory = EntityFactory.new(archetype_registry, entity_manager)
+	entity_factory = EntityFactory.new(
+		tag_registry, archetype_registry, entity_manager)
 
 	print("GameManager: loaded %d archetypes from %d raw file(s)" % [
 		archetype_registry.count(), RAW_FILES.size()])
