@@ -3,6 +3,7 @@ class_name TestCase extends RefCounted
 # Base class for all test suites.
 # Extend this and write methods named test_*
 
+@warning_ignore("unused_private_class_variable")
 var _runner: Node = null          # set by TestRunner
 var _assertion_failed := false
 var _failure_message := ""

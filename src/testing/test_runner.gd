@@ -30,22 +30,28 @@ func _ready() -> void:
 
 func _discover_test_scripts() -> Array[String]:
 	var scripts: Array[String] = []
-	var dir := DirAccess.open(TEST_DIR)
-	assert(
-		dir != null, "TestRunner: could not open test directory: %s" % TEST_DIR
-	)
+	_scan_dir(TEST_DIR, scripts)
+	scripts.sort()
+	return scripts
+
+
+func _scan_dir(path: String, scripts: Array[String]) -> void:
+	var dir := DirAccess.open(path)
+	if dir == null:
+		push_error("TestRunner: could not open directory: %s" % path)
+		_errors += 1
+		return
+
 	dir.list_dir_begin()
 	var file_name := dir.get_next()
 	while file_name != "":
-		if (
-			not dir.current_is_dir() and file_name.begins_with("test_")
-			and file_name.ends_with(".gd")
-		):
-			scripts.append(TEST_DIR + file_name)
+		var full_path := path + file_name
+		if dir.current_is_dir():
+			_scan_dir(full_path + "/", scripts)
+		elif file_name.begins_with("test_") and file_name.ends_with(".gd"):
+			scripts.append(full_path)
 		file_name = dir.get_next()
 	dir.list_dir_end()
-	scripts.sort()
-	return scripts
 
 
 func run_all() -> void:
@@ -99,6 +105,9 @@ func _run_script(path: String) -> void:
 		if method["name"].begins_with("test_"):
 			methods.append(method["name"])
 	methods.sort()
+
+	if methods.is_empty():
+		return
 
 	var suite_name := path.get_file().get_basename()
 	print("── %s  (%d tests)" % [suite_name, methods.size()])  # (3) suite count
