@@ -60,8 +60,8 @@ static func build(
 
 		var bounds: Dictionary = VALID_STATS[key]
 		assert(value >= bounds["min"] and value <= bounds["max"],
-			"StatsComponent: archetype '%s' STAT '%s' value %d " \
-			+ "is out of range [%d, %d]" \
+			("StatsComponent: archetype '%s' STAT '%s' value %d " \
+			+ "is out of range [%d, %d]") \
 			% [archetype_id, key, value, bounds["min"], bounds["max"]])
 
 		component.set(key, value)

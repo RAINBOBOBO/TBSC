@@ -73,6 +73,7 @@ func run_all() -> void:
 		print("  ERRORS:  %d" % _errors)
 	print("========================================\n")
 
+	await get_tree().create_timer(0.1).timeout
 	if _failed > 0 or _errors > 0:
 		get_tree().quit(1)
 	else:

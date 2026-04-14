@@ -51,8 +51,8 @@ func _register_defaults() -> void:
 				var lo := int(args[1])
 				var hi := int(args[2])
 				assert(lo <= hi,
-					"RawParser: STAT range min must be <= max " \
-					+ "for key '%s'" % key)
+					("RawParser: STAT range min must be <= max " \
+					+ "for key '%s'") % key)
 				return { "key": key, "value": randi_range(lo, hi) }
 			elif args[1] == "RANDOM":
 				return { "key": key, "value": randi_range(1, 20) }
@@ -98,8 +98,8 @@ func has_tag(tag_name: String) -> bool:
 
 func get_schema(tag_name: String) -> Dictionary:
 	assert(has_tag(tag_name),
-		"ComponentTagRegistry: unknown tag '%s' " \
-		+ "— register it in ComponentTagRegistry._register_defaults()" \
+		("ComponentTagRegistry: unknown tag '%s' " \
+		+ "— register it in ComponentTagRegistry._register_defaults()") \
 		% tag_name)
 	return _schema[tag_name]
 

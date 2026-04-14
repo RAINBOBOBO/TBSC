@@ -22,16 +22,21 @@ func _init(registry: ComponentTagRegistry) -> void:
 # Parse a .cfg file at the given res:// or absolute path.
 # Returns a Dictionary of { archetype_id: archetype_data }.
 func parse_file(path: String) -> Dictionary:
-	assert(FileAccess.file_exists(path), "RawParser: file not found: '%s'" % path)
+	assert(FileAccess.file_exists(path),
+		"RawParser: file not found: '%s'" % path)
 	var file := FileAccess.open(path, FileAccess.READ)
-	assert(file != null, "RawParser: could not open file: '%s'" % path)
+	assert(file != null,
+		"RawParser: could not open file: '%s'" % path)
 	var text := file.get_as_text()
 	file.close()
 	return parse_text(text, path)
 
 
 # Parse raw text directly (useful for testing).
-func parse_text(text: String, source_label: String = "<string>") -> Dictionary:
+func parse_text(
+	text: String,
+	source_label: String = "<string>"
+) -> Dictionary:
 	var archetypes: Dictionary = {}
 	var current_id: String = ""
 	var current_data: Dictionary = {}
@@ -46,7 +51,9 @@ func parse_text(text: String, source_label: String = "<string>") -> Dictionary:
 			continue
 
 		assert(line.begins_with("[") and line.ends_with("]"),
-			"RawParser: malformed line %d in %s — expected [TAG:...]: '%s'" % [line_number, source_label, line])
+			("RawParser: malformed line %d in %s" \
+			+ " — expected [TAG:...]: '%s'") \
+			% [line_number, source_label, line])
 
 		# Strip brackets and split on ':'
 		var inner := line.substr(1, line.length() - 2)
@@ -60,24 +67,32 @@ func parse_text(text: String, source_label: String = "<string>") -> Dictionary:
 		if tag == "ARCHETYPE":
 			if args[0] == "END":
 				assert(current_id != "",
-					"RawParser: [ARCHETYPE:END] found with no open archetype at line %d in %s" % [line_number, source_label])
+					("RawParser: [ARCHETYPE:END] found with no" \
+					+ " open archetype at line %d in %s") \
+					% [line_number, source_label])
 				archetypes[current_id] = current_data
 				current_id = ""
 				current_data = {}
 			else:
 				assert(current_id == "",
-					"RawParser: nested [ARCHETYPE] at line %d in %s — did you forget [ARCHETYPE:END]?" % [line_number, source_label])
+					("RawParser: nested [ARCHETYPE] at line %d" \
+					+ " in %s — did you forget [ARCHETYPE:END]?") \
+					% [line_number, source_label])
 				current_id = args[0]
 				current_data = { "id": current_id }
 			continue
 
 		# All non-control tags must be inside an archetype block
 		assert(current_id != "",
-			"RawParser: tag [%s] at line %d in %s is outside an [ARCHETYPE] block" % [tag, line_number, source_label])
+			("RawParser: tag [%s] at line %d in %s" \
+			+ " is outside an [ARCHETYPE] block") \
+			% [tag, line_number, source_label])
 
 		# Delegate to registry
 		assert(_registry.has_tag(tag),
-			"RawParser: unknown tag [%s] at line %d in %s — register it in ComponentTagRegistry" % [tag, line_number, source_label])
+			("RawParser: unknown tag [%s] at line %d in %s" \
+			+ " — register it in ComponentTagRegistry") \
+			% [tag, line_number, source_label])
 
 		var schema := _registry.get_schema(tag)
 		var component_key: String = schema["component"]
@@ -96,9 +111,13 @@ func parse_text(text: String, source_label: String = "<string>") -> Dictionary:
 					current_data[component_key] = []
 				current_data[component_key].append(value)
 			_:
-				assert(false, "RawParser: unknown cardinality '%s' for tag [%s]" % [cardinality, tag])
+				assert(false,
+					("RawParser: unknown cardinality '%s'" \
+					+ " for tag [%s]") % [cardinality, tag])
 
 	assert(current_id == "",
-		"RawParser: file '%s' ended without closing the last [ARCHETYPE] block (id: '%s')" % [source_label, current_id])
+		("RawParser: file '%s' ended without closing" \
+		+ " the last [ARCHETYPE] block (id: '%s')") \
+		% [source_label, current_id])
 
 	return archetypes
