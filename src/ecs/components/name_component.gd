@@ -1,8 +1,8 @@
 class_name NameComponent extends Component
 
-@export var name: String = "John Entity"
-@export var title: String = ""
-@export var display_name: String:
+var name: String = "John Entity"
+var title: String = ""
+var display_name: String:
 	get:
 		if title.is_empty():
 			return name

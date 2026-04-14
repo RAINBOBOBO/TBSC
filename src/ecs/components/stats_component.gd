@@ -1,16 +1,14 @@
 class_name StatsComponent extends Component
 
-@export_category("Core Stats")
-@export var health: int = 100
-@export var max_health: int = 100
-@export var condition: int = 100
-@export var max_condition: int = 100
+var health: int = 100
+var max_health: int = 100
+var condition: int = 100
+var max_condition: int = 100
 
-@export_category("Attributes")
-@export_range(1, 20) var strength: int = 10
-@export_range(1, 20) var dexterity: int = 10
-@export_range(1, 20) var intelligence: int = 10
-@export_range(1, 20) var magic: int = 10
+var strength: int = 10
+var dexterity: int = 10
+var intelligence: int = 10
+var magic: int = 10
 
 const VALID_STATS := {
 	"max_health":    { "min": 1, "max": 9999 },
