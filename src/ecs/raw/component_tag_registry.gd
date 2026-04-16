@@ -60,6 +60,18 @@ func _register_defaults() -> void:
 				return { "key": key, "value": int(args[1]) }
 	)
 
+	# SCENE tag: [SCENE:res://scenes/characters/human.tscn]
+	register("SCENE", "scene", SceneComponent, "one", "path",
+		func(args: Array[String]):
+			assert(args.size() >= 2,
+				"RawParser: SCENE tag requires a res:// path")
+			var path := ":".join(args)
+			assert(path.begins_with("res://"),
+				("RawParser: SCENE path must begin with"
+				+ " 'res://' — got '%s'") % path)
+			return path
+	)
+
 
 # Register a new tag.
 #   tag_name        -- the bracket token, e.g. "STAT"

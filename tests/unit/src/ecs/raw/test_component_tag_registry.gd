@@ -32,6 +32,16 @@ func test_stat_handler_random() -> void:
 		assert_in_range(result["value"], 1, 20)
 
 
+# --- STAT handler ---
+
+func test_scene_handler_rejoins_path() -> void:
+	var reg := ComponentTagRegistry.new()
+	var handler: Callable = reg.get_schema("SCENE")["handler"]
+	var args: Array[String] = ["res", "//scenes/characters/human.tscn"]
+	var result = handler.call(args)
+	assert_eq(result, "res://scenes/characters/human.tscn")
+
+
 # --- get_builders_for ---
 
 func test_get_builders_for_name_only() -> void:
