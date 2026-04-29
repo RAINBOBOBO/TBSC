@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://3fia5m572llo"]
+
+[ext_resource type="Script" uid="uid://crsd5r7tx8wlp" path="res://src/actors/character_body.gd" id="1_swaxu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_swaxu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cwf78"]
+
+[node name="Human" type="CharacterBody2D"]
+script = ExtResource("1_swaxu")
+metadata/_custom_type_script = "uid://crsd5r7tx8wlp"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_swaxu")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CapsuleShape2D_cwf78")
